@@ -1,5 +1,8 @@
 mod utils;
 
+#[macro_use]
+mod macros;
+
 use std::fmt;
 use wasm_bindgen::prelude::*;
 use web_sys::console;
@@ -19,6 +22,7 @@ extern {
 pub fn greet() {
     alert("Hello, wasm-game-of-life!");
 }
+
 
 pub struct Timer<'a> {
     name: &'a str,
@@ -148,6 +152,8 @@ impl Universe {
                 let idx = self.get_index(row, col);
                 let cell = self.cells[idx];
                 let live_neighbors = self.live_neighbor_count(row, col);
+
+                log!("cell[{}, {}] is initially {:?} and has {} live neighbors", row, col, cell, live_neighbors);
 
                 let next_cell = match (cell, live_neighbors) {
                     // Rule 1: Any live cell with fewer than two live neighbours
